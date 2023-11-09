@@ -35,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
             binding.bottomNavigationView.setSelectedItemId(R.id.navigation_home);
         }
 
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomDialog();
+            }
+        });
+
 
     }
 
