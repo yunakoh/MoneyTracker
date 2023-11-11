@@ -23,12 +23,7 @@
     <FrameLayout
         android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-        <!--android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="@+id/bottomNavigationView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/> -->
+        android:layout_height="650dp"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -52,7 +47,7 @@
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/light_blue"
                 android:layout_gravity="center"
                 android:contentDescription="action button"
                 android:src="@drawable/baseline_add_24"
