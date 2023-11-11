@@ -5,6 +5,8 @@
     <string name="title_stats">분석</string>
     <string name="title_bottom_sheet">지출 정보를 기록해 보세요</string>
     <string name="title_camera">카메라로 촬영하기</string>
+    <string name="title_image">이미지 불러오기</string>
+    <string name="title_write">직접 작성하기</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dummy_button">Dummy Button</string>

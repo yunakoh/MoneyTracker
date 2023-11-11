@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_graph"
+    app:startDestination="@id/myBottomSheetFragment">
+    <dialog
+        android:id="@+id/myBottomSheetFragment"
+        android:name="com.example.ocrreceipt.ui.add.MyBottomSheetFragment"
+        android:label="MyBottomSheetFragment" >
+        <action
+            android:id="@+id/action_myBottomSheetFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.ocrreceipt.ui.add.CameraFragment"
+        android:label="CameraFragment" />
+</navigation>

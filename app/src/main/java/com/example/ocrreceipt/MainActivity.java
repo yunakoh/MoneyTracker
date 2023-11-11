@@ -1,7 +1,6 @@
 package com.example.ocrreceipt;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.WindowDecorActionBar;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -14,6 +13,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.example.ocrreceipt.databinding.ActivityMainBinding;
+import com.example.ocrreceipt.ui.add.MyBottomSheetFragment;
 import com.example.ocrreceipt.ui.home.HomeFragment;
 import com.example.ocrreceipt.ui.stats.StatsFragment;
 
@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomDialog();
+
+                showBottomSheetDialog();
             }
         });
-
 
     }
 
@@ -62,10 +62,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showBottomSheetDialog() {
+        MyBottomSheetFragment bottomSheetFragment = new MyBottomSheetFragment();
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+}
+
+    /*
     private void showBottomDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottomsheet_layout);
+        dialog.setContentView(R.layout.fragment_bottomsheet);
 
         LinearLayout cameraLayout = dialog.findViewById(R.id.layoutCamera);
         LinearLayout imageLayout = dialog.findViewById(R.id.layoutImage);
@@ -76,10 +83,24 @@ public class MainActivity extends AppCompatActivity {
         cameraLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
 
+            }
+        });
+        imageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
+
+        writeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -89,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+     */
 
 
 
-}
