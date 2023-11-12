@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.ocrreceipt.R;
+import com.example.ocrreceipt.ui.home.HomeFragment;
 
 import java.io.IOException;
 
@@ -75,7 +76,7 @@ public class ImageFragment extends Fragment{
 
         Button btnSelectComplete = view.findViewById(R.id.select_btn);
         btnSelectComplete.setOnClickListener(v -> {
-
+            getParentFragmentManager().beginTransaction().replace(R.id.main_container, new ConfirmFragment()).commit();
 
         });
 

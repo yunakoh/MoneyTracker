@@ -63,6 +63,7 @@ public class CameraFragment extends Fragment {
     private void processImageForOCR(File imageFile) {
 
 
+        // Use recognizedText as needed
     }
 }
 
