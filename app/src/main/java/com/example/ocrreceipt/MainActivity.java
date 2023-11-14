@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -73,7 +74,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void showBottomSheetDialog() {
         MyBottomSheetFragment bottomSheetFragment = new MyBottomSheetFragment();
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+        // 트랜잭션 시작
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // 백 스택에 추가
+        transaction.addToBackStack("replacement");
+
+        // Fragment를 표시
+        bottomSheetFragment.show(transaction, bottomSheetFragment.getTag());
+
+        //bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
 

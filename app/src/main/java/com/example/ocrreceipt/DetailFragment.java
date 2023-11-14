@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.ocrreceipt.databinding.FragmentDetailBinding;
 
@@ -28,11 +29,10 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //원래 있던 프래그먼트로 돌아가기
+                getActivity().getSupportFragmentManager().restoreBackStack("replacement");
 
             }
         });
-
-
 
 
         return root;

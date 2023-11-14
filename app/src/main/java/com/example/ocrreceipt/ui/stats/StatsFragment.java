@@ -1,5 +1,6 @@
 package com.example.ocrreceipt.ui.stats;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -51,9 +52,18 @@ public class StatsFragment extends Fragment {
         Button variance = binding.variance;
         Button method = binding.method;
 
+        variance.setBackgroundColor(Color.BLUE);
+        LineChartFragment lineChartFragment = new LineChartFragment();
+
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.graph_container, lineChartFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
+
         variance.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                variance.setBackgroundColor(Color.BLUE);
                 LineChartFragment lineChartFragment = new LineChartFragment();
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -64,9 +74,11 @@ public class StatsFragment extends Fragment {
             }
         });
 
-        variance.setOnClickListener(new View.OnClickListener(){
+        method.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                method.setBackgroundColor(Color.BLUE);
+
                 MethodFragment methodFragment = new MethodFragment();
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
