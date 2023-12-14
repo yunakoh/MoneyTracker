@@ -16,24 +16,14 @@ import com.example.ocrreceipt.MyHistoryRecyclerViewAdapter;
 import com.example.ocrreceipt.R;
 import com.example.ocrreceipt.placeholder.PlaceholderContent;
 
-/**
- * A fragment representing a list of Items.
- */
+
 public class HistoryFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public HistoryFragment() {
     }
-
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static HistoryFragment newInstance(int columnCount) {
         HistoryFragment fragment = new HistoryFragment();

@@ -35,6 +35,10 @@ public class LineChartFragment extends Fragment {
 
     private FragmentLinechartBinding binding;
 
+    public LineChartFragment(){
+
+    }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -92,6 +96,7 @@ public class LineChartFragment extends Fragment {
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // 그래프에 대한 라벨
         dataSet.setDrawCircles(false); // 포인트에 원을 그리지 않습니다.
         dataSet.setDrawValues(false); // 값의 텍스트를 그리지 않습니다.
+        dataSet.setLineWidth(3f); // 3f는 선의 두께를 나타냅니다.
 
         LineData lineData = new LineData(dataSet);
 
@@ -106,4 +111,5 @@ public class LineChartFragment extends Fragment {
             return String.valueOf((int) value);
         }
     }
+
 }
