@@ -1,44 +1,30 @@
 package com.example.ocrreceipt.ui.stats;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.ocrreceipt.DetailFragment;
 import com.example.ocrreceipt.R;
+import com.example.ocrreceipt.databinding.FragmentConfirmBinding;
+import com.example.ocrreceipt.databinding.FragmentStatsBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StatsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentStatsBinding binding;
 
     public StatsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StatsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+/*
     public static StatsFragment newInstance(String param1, String param2) {
         StatsFragment fragment = new StatsFragment();
         Bundle args = new Bundle();
@@ -46,21 +32,64 @@ public class StatsFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
+    } */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats, container, false);
+
+        binding = FragmentStatsBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        Button variance = binding.variance;
+        Button method = binding.method;
+
+        variance.setBackgroundColor(Color.BLUE);
+        LineChartFragment lineChartFragment = new LineChartFragment();
+
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.graph_container, lineChartFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
+
+        variance.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                variance.setBackgroundColor(Color.BLUE);
+                LineChartFragment lineChartFragment = new LineChartFragment();
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.graph_container, lineChartFragment);
+                transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+                transaction.commit();
+
+            }
+        });
+
+        method.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                method.setBackgroundColor(Color.BLUE);
+
+                MethodFragment methodFragment = new MethodFragment();
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.graph_container, methodFragment);
+                transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+                transaction.commit();
+
+            }
+        });
+
+
+        return root;
     }
 }
