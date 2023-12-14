@@ -2,7 +2,7 @@
 <!-- res/color/button_selector.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Default state -->
-    <item android:state_activated="false" android:color="@android:color/darker_gray" />
+    <item android:state_selected="false" android:color="#d9d9d9" />
     <!-- Activated state -->
-    <item android:state_activated="true" android:color="@android:color/holo_blue_light" />
+    <item android:state_selected="true" android:color="#304FFF" />
 </selector>
