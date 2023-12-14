@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import com.example.ocrreceipt.DetailFragment;
 import com.example.ocrreceipt.R;
@@ -59,50 +60,45 @@ public class StatsFragment extends Fragment {
         destinationMap.put(binding.category.getId(), LineChartFragment.class);
 
         // Set click listeners for the buttons using view binding
-        binding.method.setOnClickListener(this::onButtonClick);
-        binding.variance.setOnClickListener(this::onButtonClick);
-        binding.category.setOnClickListener(this::onButtonClick);
+        binding.method.setOnClickListener(this::onRadioButtonClick);
+        binding.variance.setOnClickListener(this::onRadioButtonClick);
+        binding.category.setOnClickListener(this::onRadioButtonClick);
+
+        loadFragment(MethodFragment.class);
     }
-    public void onButtonClick(View view) {
-        Button clickedButton = (Button) view;
+    private void onRadioButtonClick(View view) {
+        RadioButton clickedRadioButton = (RadioButton) view;
 
-        // Toggle state for the first button
-        if (clickedButton.getId() == binding.method.getId()) {
-            clickedButton.setActivated(!clickedButton.isActivated());
-        } else {
-            // For other buttons, set activated state
-            clickedButton.setActivated(true);
+        // Clear the activated state for all RadioButtons
+        binding.method.setChecked(false);
+        binding.variance.setChecked(false);
+        binding.category.setChecked(false);
 
-            // Deactivate the first button
-            binding.method.setActivated(false);
-        }
+        // Set the activated state for the clicked RadioButton
+        clickedRadioButton.setChecked(true);
 
-        // Deactivate other buttons
-        binding.variance.setActivated(false);
-        binding.category.setActivated(false);
-
-        // Handle button click actions as needed
-
-        // Example: Navigate to other fragments based on button activation
-        if (clickedButton.isActivated()) {
-            Class<? extends Fragment> destinationFragment = destinationMap.get(clickedButton.getId());
-
-            if (destinationFragment != null) {
-                try {
-                    // Instantiate the destination fragment
-                    Fragment fragmentInstance = (Fragment) destinationFragment.newInstance();
-
-                    // Navigate to the destination fragment using FragmentTransaction
-                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.graph_container, fragmentInstance);
-                    transaction.addToBackStack(null); // Optional: Add to back stack
-                    transaction.commit();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (java.lang.InstantiationException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+        // Load the corresponding fragment
+        Class<? extends Fragment> destinationFragment = destinationMap.get(clickedRadioButton.getId());
+        if (destinationFragment != null) {
+            loadFragment(destinationFragment);
         }
     }
+
+    private void loadFragment(Class<? extends Fragment> fragmentClass) {
+        try {
+            // Instantiate the destination fragment
+            Fragment fragmentInstance = fragmentClass.newInstance();
+
+            // Navigate to the destination fragment using FragmentTransaction
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.graph_container, fragmentInstance);
+            transaction.addToBackStack(null); // Optional: Add to back stack
+            transaction.commit();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (java.lang.InstantiationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
