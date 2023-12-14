@@ -9,8 +9,10 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ocrreceipt.databinding.FragmentDetailBinding;
+import com.example.ocrreceipt.ui.home.HomeFragment;
 
 //지출 상세 정보를 보여주는 프래그먼트 (홈, 지출 메뉴에서 사용됨)
 public class DetailFragment extends Fragment {
@@ -29,7 +31,12 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //원래 있던 프래그먼트로 돌아가기
-                getActivity().getSupportFragmentManager().restoreBackStack("replacement");
+                //etActivity().getSupportFragmentManager().restoreBackStack("replacement");
+                HomeFragment homeFragment = new HomeFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_container, homeFragment);
+                transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+                transaction.commit();
 
             }
         });
