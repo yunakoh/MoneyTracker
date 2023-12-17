@@ -7,10 +7,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TotalPriceSum_cat {
 
-    public void sumTotalPriceByCategory(String directoryPath, long lowerLimit, long upperLimit) {
+    private final Map<String, Integer> categoryTotalPrices = new HashMap<>();
+
+    public Map<String, Integer> sumTotalPriceByCategory(String directoryPath, long lowerLimit, long upperLimit) {
         File folder = new File(directoryPath);
         File[] files = folder.listFiles();
 
@@ -39,26 +43,15 @@ public class TotalPriceSum_cat {
                     }
                 }
             }
-
-            // Print the total prices for each category
-            printTotalPrices();
+            return categoryTotalPrices;
         } else {
             System.out.println("No files found in the specified directory.");
+            return new HashMap<>(); // or return null, depending on your use case
         }
     }
-
-    // Map to store total prices for each category
-    private final java.util.Map<String, Integer> categoryTotalPrices = new java.util.HashMap<>();
 
     private void updateTotalPrice(String category, int totalPrice) {
         // Update the total price for the category
         categoryTotalPrices.merge(category, totalPrice, Integer::sum);
-    }
-
-    private void printTotalPrices() {
-        // Print the total prices for each category
-        for (java.util.Map.Entry<String, Integer> entry : categoryTotalPrices.entrySet()) {
-            System.out.println("Category: " + entry.getKey() + ", Total Price: " + entry.getValue());
-        }
     }
 }
