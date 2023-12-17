@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.ocrreceipt.databinding.FragmentLinechartBinding;
+import com.example.ocrreceipt.databinding.FragmentCategoryBinding;
 import com.example.ocrreceipt.databinding.FragmentMethodBinding;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -18,10 +20,10 @@ import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 
-public class MethodFragment extends Fragment {
-    private FragmentMethodBinding binding;
+public class CategoryFragment extends Fragment {
+    private FragmentCategoryBinding binding;
 
-    public MethodFragment(){
+    public CategoryFragment(){
 
     }
 
@@ -29,10 +31,12 @@ public class MethodFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        binding = FragmentMethodBinding.inflate(inflater, container, false);
+        binding = FragmentCategoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         PieChart pieChart = binding.pieChart;
+        ListView listView = binding.listView;
+
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(30f, "Category 1"));
         entries.add(new PieEntry(40f, "Category 2"));
@@ -47,7 +51,16 @@ public class MethodFragment extends Fragment {
 
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
-        pieChart.invalidate(); // refresh the chart
+        pieChart.invalidate();
+
+        ArrayList<String> labels = new ArrayList<>();
+        for (PieEntry entry : entries) {
+            labels.add(entry.getLabel());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, labels);
+        listView.setAdapter(adapter);
+
 
         return root;
 

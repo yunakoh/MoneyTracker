@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.ocrreceipt.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

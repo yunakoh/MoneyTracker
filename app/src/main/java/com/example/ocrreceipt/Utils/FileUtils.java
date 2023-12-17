@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.ocrreceipt.Utils;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.ocrreceipt.Utils;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;

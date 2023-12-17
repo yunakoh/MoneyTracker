@@ -57,7 +57,7 @@ public class StatsFragment extends Fragment {
         // Set up the mapping of button IDs to destination fragment classes
         destinationMap.put(binding.method.getId(), MethodFragment.class);
         destinationMap.put(binding.variance.getId(), LineChartFragment.class);
-        destinationMap.put(binding.category.getId(), LineChartFragment.class);
+        destinationMap.put(binding.category.getId(), CategoryFragment.class);
 
         // Set click listeners for the buttons using view binding
         binding.method.setOnClickListener(this::onRadioButtonClick);

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.ocrreceipt.Utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
