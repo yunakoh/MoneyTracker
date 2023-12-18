@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ocrreceipt.databinding.FragmentDetailBinding;
 import com.example.ocrreceipt.ui.home.HomeFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 //지출 상세 정보를 보여주는 프래그먼트 (홈, 지출 메뉴에서 사용됨)
 public class DetailFragment extends Fragment {
@@ -24,6 +28,18 @@ public class DetailFragment extends Fragment {
 
         binding = FragmentDetailBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // ConfirmFragment 에서의 map 값 받아오기
+        Map<String, String> detailInfoMap = getDetailInfoMap();
+
+        // TEXTVIEW 에 map 값 표현
+        binding.StoreInfo.setText(detailInfoMap.get("store_info"));
+        binding.Date.setText(detailInfoMap.get("date"));
+        binding.TotalPrice.setText(detailInfoMap.get("total_price"));
+        binding.CardInfo.setText(detailInfoMap.get("card_info"));
+        binding.Category.setText(detailInfoMap.get("category"));
+        binding.Memo.setText(detailInfoMap.get("memo"));
+
 
         Button done = binding.done;
 
@@ -45,4 +61,12 @@ public class DetailFragment extends Fragment {
         return root;
     }
 
+    private Map<String, String> getDetailInfoMap() {
+        if (getArguments() != null) {
+            return (Map<String, String>) getArguments().getSerializable("detail_info_map");
+        }
+        return new HashMap<>();
+    }
+
 }
+
