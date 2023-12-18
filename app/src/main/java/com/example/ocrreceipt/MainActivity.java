@@ -1,11 +1,20 @@
 package com.example.ocrreceipt;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setBottomNavigationView();
 
         //앱 초기 실행 시 홈화면으로 설정
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             binding.bottomNavigationView.setSelectedItemId(R.id.navigation_home);
         }
 
@@ -64,9 +74,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void showBottomSheetDialog() {
         MyBottomSheetFragment bottomSheetFragment = new MyBottomSheetFragment();
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+        // 트랜잭션 시작
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // 백 스택에 추가
+        transaction.addToBackStack("replacement");
+
+        // Fragment를 표시
+        bottomSheetFragment.show(transaction, bottomSheetFragment.getTag());
+
+        //bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
-}
+
+
+
 
     /*
     private void showBottomDialog(){
@@ -114,3 +136,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+}

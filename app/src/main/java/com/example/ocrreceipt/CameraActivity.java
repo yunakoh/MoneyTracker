@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.result.ActivityResult;
@@ -29,29 +30,38 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.example.ocrreceipt.Utils.ImageEncoder_ABS;
+import com.example.ocrreceipt.Utils.OCRGeneralAPIDemo;
+import com.example.ocrreceipt.Utils.ReceiptParser;
+import com.example.ocrreceipt.ui.add.ConfirmFragment;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class CameraActivity extends AppCompatActivity {
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private ActivityResultLauncher<Intent> cameraLauncher;
     private ImageCapture imageCapture;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
-    private static final int CAMERA_IMAGE_REQUEST_CODE = 101;
     private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+
 
         // Initialize CameraX
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -59,61 +69,28 @@ public class CameraActivity extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                bindPreview(cameraProvider);
+                bindCameraUseCase(cameraProvider);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(this));
-
-        // Initialize ActivityResultLauncher for camera
-        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == RESULT_OK) {
-                            processCapturedImage();
-                        }
-                    }
-                });
-
-        // Set up the button click listener
-        Button captureButton = findViewById(R.id.captureButton);
-        captureButton.setOnClickListener(view -> checkCameraPermissionAndCaptureImage());
     }
 
-    private void bindPreview(ProcessCameraProvider cameraProvider) {
-        PreviewView previewView = findViewById(R.id.previewView);
-        Preview preview = new Preview.Builder().build();
-        imageCapture = new ImageCapture.Builder().build();
-
+    private void bindCameraUseCase(ProcessCameraProvider cameraProvider) {
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
 
+        imageCapture = new ImageCapture.Builder().build();
+
         try {
             // Get the camera
-            Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageCapture);
+            Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture);
 
-            // Set the surface provider
-            preview.setSurfaceProvider(previewView.getSurfaceProvider());
+            // Capture image immediately
+            captureImage();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private void checkCameraPermissionAndCaptureImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Android 6.0 (API 레벨 23) 이상에서 런타임 권한 확인
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                // 권한이 없으면 권한 요청
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
-            } else {
-                // 권한이 이미 허용되어 있으면 카메라 촬영 시작
-                captureImage();
-            }
-        } else {
-            // Android 6.0 미만에서는 권한이 Manifest에서 설정되므로 추가 확인 불필요
-            captureImage();
         }
     }
 
@@ -130,8 +107,8 @@ public class CameraActivity extends AppCompatActivity {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 
-            // 수정: startActivityForResult 대신에 cameraLauncher 사용
-            cameraLauncher.launch(takePictureIntent);
+            // Start the camera activity for result
+            startActivityForResult(takePictureIntent, CAMERA_PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -145,26 +122,57 @@ public class CameraActivity extends AppCompatActivity {
         return imageFile;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE && resultCode == RESULT_OK) {
+            processCapturedImage();
+        }
+    }
+
     private void processCapturedImage() {
         // Handle the captured image here, for example, show it in an ImageView
         // The image path can be obtained from currentPhotoPath
         // For this example, we simply log the image path
         System.out.println(currentPhotoPath);
+
+        try {
+
+            String BASE64Image = ImageEncoder_ABS.encodeImage(currentPhotoPath);
+            System.out.println("this is : " + BASE64Image);
+
+            // OCRGeneralAPIDemo의 data 값으로 전달 후 JSON 파일 받아오기
+            OCRGeneralAPIDemo ocrTask = new OCRGeneralAPIDemo();
+            String json_data_string = ocrTask.execute(BASE64Image).get();
+            Log.d("ImageFragment", "JSON TEST: " + json_data_string);
+
+            // JSON 파일 파싱 후 Map 으로 반환
+            ReceiptParser receiptParser = new ReceiptParser();
+            Map<String, String> receiptInfoMap = ReceiptParser.parseReceipt(json_data_string);
+            //Log.d("ImageFragment", "RECEIPT INFO TEST: " + Receipit_INFO);
+
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
         // TODO: Handle the image path as needed
     }
 
-    // 런타임 권한 요청 결과 처리
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 권한이 허용되면 카메라 촬영 시작
-                captureImage();
-            } else {
-                // 권한이 거부되면 사용자에게 권한이 필요하다고 알림
-                // 필요한 추가 처리를 여기에 추가할 수 있습니다.
-            }
-        }
+    private void navigateToConfirmFragment(Map<String, String> receiptInfoMap) {
+        // ConfirmFragment로 이동하는 FragmentTransaction 생성 및 데이터 전달
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ConfirmFragment fragment = ConfirmFragment.newInstance(receiptInfoMap);
+        transaction.add(R.id.main_container, fragment);
+        transaction.addToBackStack(null);  // Optional: Back stack에 추가
+        transaction.commit();
     }
+
+    // Other methods remain unchanged
 }
