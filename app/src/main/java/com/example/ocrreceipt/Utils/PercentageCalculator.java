@@ -1,7 +1,9 @@
+package com.example.ocrreceipt.Utils;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryPercentageCalculator {
+public class PercentageCalculator {
 
     public Map<String, Double> calculatePercentage(Map<String, Integer> categoryTotalPrices) {
         Map<String, Double> categoryPercentages = new HashMap<>();
@@ -21,3 +23,4 @@ public class CategoryPercentageCalculator {
 
         return categoryPercentages;
     }
+}
