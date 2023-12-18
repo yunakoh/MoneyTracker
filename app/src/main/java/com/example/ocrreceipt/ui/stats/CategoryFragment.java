@@ -11,14 +11,19 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.ocrreceipt.Utils.PercentageCalculator;
+import com.example.ocrreceipt.Utils.TotalPriceSum_cat;
 import com.example.ocrreceipt.databinding.FragmentCategoryBinding;
 import com.example.ocrreceipt.databinding.FragmentMethodBinding;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class CategoryFragment extends Fragment {
     private FragmentCategoryBinding binding;
@@ -37,32 +42,47 @@ public class CategoryFragment extends Fragment {
         PieChart pieChart = binding.pieChart;
         ListView listView = binding.listView;
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(30f, "Category 1"));
-        entries.add(new PieEntry(40f, "Category 2"));
-        entries.add(new PieEntry(20f, "Category 3"));
-        entries.add(new PieEntry(10f, "Category 4"));
+        TotalPriceSum_cat CatValue = new TotalPriceSum_cat();
 
-        PieDataSet dataSet = new PieDataSet(entries, "My Pie Chart");
-        dataSet.setColors(Color.rgb(255, 0, 0), Color.rgb(0, 255, 0), Color.rgb(0, 0, 255), Color.rgb(255, 255, 0));
+        Map<String, Integer> categoryTotalPrices = CatValue.sumTotalPriceByCategory("/data/user/0/com.example.ocrreceipt/files", 0, 30);
+
+        PercentageCalculator calculator = new PercentageCalculator();
+        Map<String, Double> categoryPercentages = calculator.calculatePercentage(categoryTotalPrices);
+
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        int i = 0;
+        for (Map.Entry<String, Double> entry : categoryPercentages.entrySet()) {
+            String category = entry.getKey();
+            double percentage = entry.getValue();
+
+            entries.add(new PieEntry((float) percentage, i));
+            labels.add(category);
+
+            i++;
+        }
+
+        PieDataSet dataSet = new PieDataSet(entries, "Category Percentages");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(12f);
 
         PieData data = new PieData(dataSet);
 
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
+        pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setEntryLabelTextSize(10f);
+        pieChart.setUsePercentValues(true);
+
         pieChart.invalidate();
 
-        ArrayList<String> labels = new ArrayList<>();
-        for (PieEntry entry : entries) {
-            labels.add(entry.getLabel());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, labels);
-        listView.setAdapter(adapter);
 
 
         return root;
 
     }
+
+
+
 }

@@ -56,12 +56,12 @@ public class StatsFragment extends Fragment {
 
         // Set up the mapping of button IDs to destination fragment classes
         destinationMap.put(binding.method.getId(), MethodFragment.class);
-        destinationMap.put(binding.variance.getId(), LineChartFragment.class);
+        //destinationMap.put(binding.variance.getId(), LineChartFragment.class);
         destinationMap.put(binding.category.getId(), CategoryFragment.class);
 
         // Set click listeners for the buttons using view binding
         binding.method.setOnClickListener(this::onRadioButtonClick);
-        binding.variance.setOnClickListener(this::onRadioButtonClick);
+        //binding.variance.setOnClickListener(this::onRadioButtonClick);
         binding.category.setOnClickListener(this::onRadioButtonClick);
 
         loadFragment(MethodFragment.class);
@@ -71,7 +71,7 @@ public class StatsFragment extends Fragment {
 
         // Clear the activated state for all RadioButtons
         binding.method.setChecked(false);
-        binding.variance.setChecked(false);
+       //binding.variance.setChecked(false);
         binding.category.setChecked(false);
 
         // Set the activated state for the clicked RadioButton
