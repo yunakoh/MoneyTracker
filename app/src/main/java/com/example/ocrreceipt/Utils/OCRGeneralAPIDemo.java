@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.UUID;
 
 
-
+//BASE 64 로 인코딩된 이미지 String 값 받아서 OCR 서버로 보내는 클래스
 
 public class OCRGeneralAPIDemo extends AsyncTask<String, Void, String> {
 

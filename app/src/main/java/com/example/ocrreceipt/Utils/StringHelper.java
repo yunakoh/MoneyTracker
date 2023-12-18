@@ -1,5 +1,6 @@
 package com.example.ocrreceipt.Utils;
 
+// 절대경로 앞부분 필요없는 부분 지우는 클래스
 public class StringHelper {
 
     public static String removePrefix(String input, String prefix) {

@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import androidx.annotation.RequiresApi;
 import androidx.documentfile.provider.DocumentFile;
 
+// 선택한 이미지의 절대경로(디렉토리) 를 반환하는 클래스
 public class ImageFilePath {
 
     public static String getPath(Context context, Uri uri) {

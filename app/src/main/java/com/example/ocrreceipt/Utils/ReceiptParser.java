@@ -3,10 +3,18 @@ package com.example.ocrreceipt.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+
+// OCR 서버에서 받아온 분석 내용 중 상호명, 가격, 카드, 날짜 값을 따로
+// date 에서 6글자일 경우 8글자로 맞추는 작업 필요
+// time 에서 초 가 추가된 경우 삭제하는 작업 필요
+
+
 public class ReceiptParser {
 
-    public static String parseReceipt(String json_data_String) {
-        StringBuilder resultString = new StringBuilder();
+    public static Map<String, String> parseReceipt(String json_data_String) {
+        Map<String, String> resultMap = new HashMap<>();
 
         try {
             // JSON 파싱
@@ -26,34 +34,53 @@ public class ReceiptParser {
                     .getJSONObject("date")
                     .getString("text");
 
+            // 숫자가 아닌 글자 제거 로직 추가
+            date = removeNonNumericCharacters(date);
+
+            // date 값이 6글자(년도가 2글자)인 경우, "20"을 앞에 추가)
+            if (date.length() == 6) {
+                date = "20" + date;
+            }
+
+            String time = resultObject.getJSONObject("paymentInfo")
+                    .getJSONObject("time")
+                    .getString("text");
+
+            time = removeNonNumericCharacters(time);
+
+            // time 값이 6글자(초 단위 추가)인 경우 맨 뒤 두 글자 제거
+            if (time.length() == 6) {
+                time = time.substring(0, 4);
+            }
+
             String total_Price = resultObject.getJSONObject("totalPrice")
                     .getJSONObject("price")
                     .getString("text");
+
+            total_Price = removeNonNumericCharacters(total_Price);
 
             String card_Info = resultObject.getJSONObject("paymentInfo")
                     .getJSONObject("cardInfo")
                     .getJSONObject("company")
                     .getString("text");
 
-            // 추출한 정보 출력
-            System.out.println("store info: " + store_Info);
-            System.out.println("date: " + date);
-            System.out.println("total price: " + total_Price);
-            System.out.println("card info: " + card_Info);
-
-            // 정보를 문자열로 합치기
-            resultString.append("store info: ").append(store_Info).append("\n");
-            resultString.append("date: ").append(date).append("\n");
-            resultString.append("total price: ").append(total_Price).append("\n");
-            resultString.append("card info: ").append(card_Info).append("\n");
-
-
+            // 맵에 값을 추가
+            resultMap.put("store_info", store_Info);
+            resultMap.put("date", date);
+            resultMap.put("time", time);
+            resultMap.put("total_price", total_Price);
+            resultMap.put("card_info", card_Info);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return resultString.toString();
+        return resultMap;
+    }
 
+    // 숫자가 아닌 글자 제거 메서드
+
+    private static String removeNonNumericCharacters(String input) {
+        return input.replaceAll("[^0-9]", "");
     }
 }
