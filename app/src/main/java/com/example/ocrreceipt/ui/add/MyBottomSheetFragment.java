@@ -31,7 +31,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.ocrreceipt.CameraActivity;
 import com.example.ocrreceipt.MainActivity;
 import com.example.ocrreceipt.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -109,4 +108,5 @@ public class MyBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 }
+
 
