@@ -1,66 +1,104 @@
 package com.example.ocrreceipt.ui.stats;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
 
+import com.example.ocrreceipt.DetailFragment;
 import com.example.ocrreceipt.R;
+import com.example.ocrreceipt.databinding.FragmentConfirmBinding;
+import com.example.ocrreceipt.databinding.FragmentStatsBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.HashMap;
+import java.util.Map;
+
 public class StatsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentStatsBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private final Map<Integer, Class<? extends Fragment>> destinationMap = new HashMap<>();
 
     public StatsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StatsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StatsFragment newInstance(String param1, String param2) {
-        StatsFragment fragment = new StatsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats, container, false);
+
+        binding = FragmentStatsBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        return root;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Set up the mapping of button IDs to destination fragment classes
+        destinationMap.put(binding.method.getId(), MethodFragment.class);
+        destinationMap.put(binding.variance.getId(), LineChartFragment.class);
+        destinationMap.put(binding.category.getId(), LineChartFragment.class);
+
+        // Set click listeners for the buttons using view binding
+        binding.method.setOnClickListener(this::onRadioButtonClick);
+        binding.variance.setOnClickListener(this::onRadioButtonClick);
+        binding.category.setOnClickListener(this::onRadioButtonClick);
+
+        loadFragment(MethodFragment.class);
+    }
+    private void onRadioButtonClick(View view) {
+        RadioButton clickedRadioButton = (RadioButton) view;
+
+        // Clear the activated state for all RadioButtons
+        binding.method.setChecked(false);
+        binding.variance.setChecked(false);
+        binding.category.setChecked(false);
+
+        // Set the activated state for the clicked RadioButton
+        clickedRadioButton.setChecked(true);
+
+        // Load the corresponding fragment
+        Class<? extends Fragment> destinationFragment = destinationMap.get(clickedRadioButton.getId());
+        if (destinationFragment != null) {
+            loadFragment(destinationFragment);
+        }
+    }
+
+    private void loadFragment(Class<? extends Fragment> fragmentClass) {
+        try {
+            // Instantiate the destination fragment
+            Fragment fragmentInstance = fragmentClass.newInstance();
+
+            // Navigate to the destination fragment using FragmentTransaction
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.graph_container, fragmentInstance);
+            transaction.addToBackStack(null); // Optional: Add to back stack
+            transaction.commit();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (java.lang.InstantiationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
