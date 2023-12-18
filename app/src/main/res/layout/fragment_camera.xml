@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- fragment_camera.xml -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.camera.view.PreviewView android:id="@+id/cameraPreview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
 
-    <!-- PreviewView for camera preview -->
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!-- Add any additional UI elements or controls as needed -->
-    <!-- For example, you might want to add a capture button -->
-    <ImageButton
-        android:id="@+id/btnCapture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_camera"
-        android:background="?android:attr/selectableItemBackground" />
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/capture_btn"/>
 
-    <!-- You can add more UI elements here as needed -->
 
-</RelativeLayout>
-
+</LinearLayout>
+-->
 

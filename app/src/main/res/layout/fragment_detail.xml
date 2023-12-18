@@ -33,7 +33,7 @@
         android:layout_marginLeft="40dp"/>
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/Date"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_marginLeft="40dp"/>
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/Store_Info"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
         android:layout_marginLeft="40dp"/>
 
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/Total_Price"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
         android:layout_marginLeft="40dp"/>
 
     <TextView
-        android:id="@+id/method"
+        android:id="@+id/Card_Info"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,19 +134,19 @@
         android:layout_marginTop="235dp"
         android:layout_centerHorizontal="true"/>
 
-    <!--할부-->
+    <!--카테고리-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="할부"
+        android:text="카테고리"
         android:textSize="13dp"
         android:layout_below="@+id/text"
         android:layout_marginTop="250dp"
         android:layout_marginLeft="40dp"/>
 
     <TextView
-        android:id="@+id/plan"
+        android:id="@+id/Category"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
         android:layout_marginLeft="40dp"/>
 
     <TextView
-        android:id="@+id/memo"
+        android:id="@+id/Memo"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/memo"
+        android:layout_below="@+id/Memo"
         android:layout_marginTop="100dp"
         android:backgroundTint="@color/blue"
         android:text="확인완료"/>

@@ -32,14 +32,15 @@
         android:layout_marginTop="70dp"
         android:layout_marginLeft="40dp"/>
 
-    <TextView
-        android:id="@+id/date"
+    <EditText
+        android:id="@+id/Date"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="145dp"/>
+        android:layout_marginTop="145dp"
+        android:text="Sample EditText"/>
 
 
     <ImageView
@@ -61,14 +62,15 @@
         android:layout_marginTop="115dp"
         android:layout_marginLeft="40dp"/>
 
-    <TextView
-        android:id="@+id/name"
+    <EditText
+        android:id="@+id/Store_Info"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="190dp"/>
+        android:layout_marginTop="190dp"
+        android:text="Sample EditText"/>
 
     <ImageView
         android:layout_width="600dp"
@@ -89,14 +91,15 @@
         android:layout_marginTop="160dp"
         android:layout_marginLeft="40dp"/>
 
-    <TextView
-        android:id="@+id/amount"
+    <EditText
+        android:id="@+id/Total_Price"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="235dp"/>
+        android:layout_marginTop="235dp"
+        android:text="Sample EditText"/>
 
     <ImageView
         android:layout_width="600dp"
@@ -117,14 +120,15 @@
         android:layout_marginTop="205dp"
         android:layout_marginLeft="40dp"/>
 
-    <TextView
-        android:id="@+id/method"
+    <EditText
+        android:id="@+id/Card_Info"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="280dp"/>
+        android:layout_marginTop="280dp"
+        android:text="Sample EditText"/>
 
     <ImageView
         android:layout_width="600dp"
@@ -134,25 +138,26 @@
         android:layout_marginTop="235dp"
         android:layout_centerHorizontal="true"/>
 
-    <!--할부-->
+    <!--카테고리-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="할부"
+        android:text="카테고리"
         android:textSize="13dp"
         android:layout_below="@+id/text"
         android:layout_marginTop="250dp"
         android:layout_marginLeft="40dp"/>
 
-    <TextView
-        android:id="@+id/plan"
+    <EditText
+        android:id="@+id/Category"
         android:textSize="13dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="325dp"/>
+        android:layout_marginTop="325dp"
+        android:text="Sample EditText"/>
 
     <ImageView
         android:layout_width="600dp"
@@ -175,7 +180,7 @@
         android:layout_marginLeft="40dp"/>
 
     <EditText
-        android:id="@+id/memo"
+        android:id="@+id/Memo"
         android:textSize="13dp"
         android:layout_width="200dp"
         android:layout_height="48dp"
@@ -189,7 +194,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/memo"
+        android:layout_below="@+id/Memo"
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/gray"
         android:text="수정하기"
